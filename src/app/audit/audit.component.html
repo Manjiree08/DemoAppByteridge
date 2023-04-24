@@ -1,13 +1,33 @@
 <h1>Hi {{currentUser.firstName}}!</h1>
 <p>You're logged in with Angular 8!!</p>
 <h3>All login audit :</h3>
-<ul>
-    <li *ngFor="let audit of audits">
-        <br/><span class="badge badge-primary">{{audit.user}}</span>
-        <br/><span class="badge badge-secondary">{{audit._id}}</span>
-        <br/>Login - {{audit.loginTime}}
-        <br/>Logout - {{audit.logoutTime}}
-        <br/>IP - {{audit.ip}}
-    </li>
+<select style='display: none;'
+    #mySelect
+    (change)='onOptionsSelected(mySelect.value)'>
+    <option class='option' [value]="24">24hr</option>
+   <option class='option' [value]="12">12hr</option>
+</select>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">User</th>
+                <th scope="col">Id</th>
+                <th scope="col">loginTime</th>
+                <th scope="col">logoutTime</th>
+                <th scope="col">ip</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let audit of audits">
+				<td><span class="badge badge-primary">{{audit.user}}</span></td>
+                <td scope="row"><span class="badge badge-secondary">{{audit._id}}</span></td>
+				<td id="logintime">{{audit.loginTime | date : 'dd/MM/yyyy hh:mm:ss'}}</td>
+                <td id="logouttime">{{audit.logoutTime | date : 'dd/MM/yyyy hh:mm:ss'}}</td>
+                <td>{{audit.ip}}</td>
 
-</ul>
+			</tr>
+		</tbody>
+	</table>
+    <div class="col-md-12 text-center">
+        <ul class="pagination pagination-lg pager" id="myPager"></ul>
+        </div>
